@@ -1,0 +1,16 @@
+aliases:
+  run:
+    cmd:
+      - go run cmd/ca/main.go
+    working_dir: .
+    description: run ca
+  lint:
+    cmd:
+      - staticcheck ./...
+    working_dir: .
+    description: style check
+  build:
+    cmd:
+      - go build -o dist/ca cmd/ca/main.go
+    working_dir: .
+    description: build ca
