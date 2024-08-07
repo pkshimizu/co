@@ -7,6 +7,7 @@ commands:
   lint:
     exec:
       - staticcheck ./...
+      - go vet ./...
     working_dir: .
     description: style check
   build:

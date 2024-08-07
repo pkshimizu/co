@@ -1,4 +1,4 @@
-module ca
+module github.com/pkshimizu/ca
 
 go 1.22.3
 
