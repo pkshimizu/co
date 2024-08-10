@@ -1,4 +1,4 @@
-package ca
+package do
 
 import (
 	"os"
@@ -11,9 +11,9 @@ type Setting struct {
 }
 
 type YamlCommand struct {
-	Exec        string `yaml:"exec"`
-	WorkingDir  string `yaml:"working_dir"`
-	Description string `yaml:"description"`
+	Exec        []string `yaml:"exec"`
+	WorkingDir  string   `yaml:"working_dir"`
+	Description string   `yaml:"description"`
 }
 
 type YamlSetting struct {
@@ -37,7 +37,7 @@ func loadYaml(dir string) (Setting, error) {
 
 	// 設定を読み込む
 	setting := YamlSetting{}
-	b, err := os.ReadFile(dir + "/.ca.yaml")
+	b, err := os.ReadFile(dir + "/.do.yaml")
 	if err != nil {
 		return Setting{}, err
 	}

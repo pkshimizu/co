@@ -1,4 +1,4 @@
-module github.com/pkshimizu/ca
+module github.com/pkshimizu/do
 
 go 1.22.3
 

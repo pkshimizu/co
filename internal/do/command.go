@@ -1,4 +1,4 @@
-package ca
+package do
 
 type Command struct {
 	Name        string
