@@ -10,6 +10,16 @@ type Setting struct {
 	Commands []Command
 }
 
+func (s Setting) FindCommand(name string) *Command {
+	for _, cmd := range s.Commands {
+		if cmd.Name == name {
+			return &cmd
+		}
+	}
+	return nil
+
+}
+
 type YamlCommand struct {
 	Exec        []string `yaml:"exec"`
 	WorkingDir  string   `yaml:"working_dir"`
@@ -49,6 +59,7 @@ func loadYaml(dir string) (Setting, error) {
 	for name, cmd := range setting.Commands {
 		cmds = append(cmds, Command{
 			Name:        name,
+			Execs:       cmd.Exec,
 			WorkingDir:  cmd.WorkingDir,
 			Description: cmd.Description,
 		})

@@ -3,7 +3,7 @@ commands:
     exec:
       - go run cmd/ca/main.go
     working_dir: .
-    description: run ca
+    description: run do
   lint:
     exec:
       - staticcheck ./...
