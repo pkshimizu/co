@@ -8,5 +8,10 @@ import (
 
 func main() {
 	fmt.Println("start ca")
-	ca.LoadSetting()
+	setting, err := ca.Load()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	ca.Print(setting)
 }

@@ -20,7 +20,7 @@ type YamlSetting struct {
 	Commands map[string]YamlCommand `yaml:"commands"`
 }
 
-func LoadSetting() (Setting, error) {
+func Load() (Setting, error) {
 	// 以下の順序で.ca.yamlファイルを読み込む
 	// 1. カレントディレクトリ
 	setting, err := loadYaml(".")
