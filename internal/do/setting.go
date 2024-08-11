@@ -74,10 +74,10 @@ func loadYaml(dir string) (Setting, error) {
 	}, nil
 }
 
-func getWorkingDir(cd string, wd string) (string, error) {
+func getWorkingDir(base string, wd string) (string, error) {
 	if filepath.IsAbs(wd) {
 		return filepath.Abs(wd)
 	} else {
-		return filepath.Abs(filepath.Join(cd, wd))
+		return filepath.Abs(filepath.Join(base, wd))
 	}
 }

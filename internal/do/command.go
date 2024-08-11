@@ -1,6 +1,7 @@
 package do
 
 import (
+	"bytes"
 	"os/exec"
 )
 
@@ -14,12 +15,18 @@ type Command struct {
 func (cmd Command) Exec(args []string) error {
 	for _, ex := range cmd.Execs {
 		c := exec.Command(ex, args...)
+		var stdout bytes.Buffer
+		var stderr bytes.Buffer
+		c.Stdout = &stdout
+		c.Stderr = &stderr
 		c.Dir = cmd.WorkingDir
-		out, err := c.Output()
+		err := c.Run()
 		if err != nil {
-			return err
+			println(stdout.String())
+			println(stderr.String())
+		} else {
+			println(stdout.String())
 		}
-		println(string(out))
 	}
 	return nil
 }
