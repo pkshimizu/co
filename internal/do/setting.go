@@ -64,7 +64,7 @@ func loadYaml(dir string) (Setting, error) {
 		}
 		cmds = append(cmds, Command{
 			Name:        name,
-			Execs:       cmd.Exec,
+			ExecList:    cmd.Exec,
 			WorkingDir:  wd,
 			Description: cmd.Description,
 		})

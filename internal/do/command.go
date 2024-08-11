@@ -8,13 +8,13 @@ import (
 
 type Command struct {
 	Name        string
-	Execs       []string
+	ExecList    []string
 	WorkingDir  string
 	Description string
 }
 
 func (cmd Command) Exec(args []string) error {
-	for _, ex := range cmd.Execs {
+	for _, ex := range cmd.ExecList {
 		values := strings.Split(ex, " ")
 		cmdName := values[0]
 		cmdArgs := append(values[1:], args...)

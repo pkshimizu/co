@@ -10,8 +10,11 @@ func Print(setting Setting) {
 	for _, cmd := range setting.Commands {
 		fmt.Printf("  %-*s  %s\n", ml, cmd.Name, cmd.Description)
 		fmt.Printf("  %-*s  working dir: %s\n", ml, "", cmd.WorkingDir)
-		for _, ex := range cmd.Execs {
-			fmt.Printf("  %-*s  exec: %s\n", ml, "", ex)
+		if len(cmd.ExecList) > 0 {
+			fmt.Printf("  %-*s  exec: %s\n", ml, "", cmd.ExecList[0])
+		}
+		for _, ex := range cmd.ExecList[1:] {
+			fmt.Printf("  %-*s        %s\n", ml, "", ex)
 		}
 	}
 }
