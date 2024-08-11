@@ -5,7 +5,7 @@ import "fmt"
 func Print(setting Setting) {
 	fmt.Print("Usage: do <command> [<args>]\n\n")
 
-	fmt.Print("Commands\n")
+	fmt.Print("Commands:\n")
 	ml := getMaxCommandNameLength(setting)
 	for _, cmd := range setting.Commands {
 		fmt.Printf("  %-*s  %s\n", ml, cmd.Name, cmd.Description)
