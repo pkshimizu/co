@@ -1,7 +1,7 @@
 commands:
   run:
     exec:
-      - go run cmd/ca/main.go
+      - go run cmd/do/main.go
     working_dir: .
     description: run do
   lint:
@@ -12,6 +12,6 @@ commands:
     description: style check
   build:
     exec:
-      - go build -o dist/ca cmd/ca/main.go
+      - go build -o dist/do cmd/do/main.go
     working_dir: .
     description: build ca
