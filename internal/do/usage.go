@@ -9,6 +9,10 @@ func Print(setting Setting) {
 	ml := getMaxCommandNameLength(setting)
 	for _, cmd := range setting.Commands {
 		fmt.Printf("  %-*s  %s\n", ml, cmd.Name, cmd.Description)
+		fmt.Printf("  %-*s  working dir: %s\n", ml, "", cmd.WorkingDir)
+		for _, ex := range cmd.Execs {
+			fmt.Printf("  %-*s  exec: %s\n", ml, "", ex)
+		}
 	}
 }
 

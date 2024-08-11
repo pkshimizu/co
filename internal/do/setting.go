@@ -2,6 +2,7 @@ package do
 
 import (
 	"os"
+	"path/filepath"
 
 	yaml "gopkg.in/yaml.v2"
 )
@@ -57,14 +58,26 @@ func loadYaml(dir string) (Setting, error) {
 	}
 	var cmds []Command
 	for name, cmd := range setting.Commands {
+		wd, err := getWorkingDir(dir, cmd.WorkingDir)
+		if err != nil {
+			return Setting{}, err
+		}
 		cmds = append(cmds, Command{
 			Name:        name,
 			Execs:       cmd.Exec,
-			WorkingDir:  cmd.WorkingDir,
+			WorkingDir:  wd,
 			Description: cmd.Description,
 		})
 	}
 	return Setting{
 		Commands: cmds,
 	}, nil
+}
+
+func getWorkingDir(cd string, wd string) (string, error) {
+	if filepath.IsAbs(wd) {
+		return filepath.Abs(wd)
+	} else {
+		return filepath.Abs(filepath.Join(cd, wd))
+	}
 }

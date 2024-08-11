@@ -23,5 +23,5 @@ func main() {
 		do.Print(setting)
 		return
 	}
-	(*cmd).Exec(os.Args[2:])
+	cmd.Exec(os.Args[2:])
 }
