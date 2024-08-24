@@ -15,3 +15,7 @@ commands:
       - go build -o dist/do cmd/do/main.go
     working_dir: .
     description: build ca
+  lm:
+    exec:
+      - ls -l | more
+    description: list and more
