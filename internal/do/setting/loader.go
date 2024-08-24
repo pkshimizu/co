@@ -1,50 +1,12 @@
-package do
+package setting
 
 import (
 	"os"
 	"path/filepath"
-	"slices"
 
+	"github.com/pkshimizu/do/internal/do/command"
 	yaml "gopkg.in/yaml.v2"
 )
-
-type Setting struct {
-	Commands []Command
-}
-
-func (s Setting) FindCommand(name string) *Command {
-	for _, cmd := range s.Commands {
-		if cmd.Name == name {
-			return &cmd
-		}
-	}
-	return nil
-
-}
-
-func (s *Setting) AddCommands(cmds []Command) {
-	var names []string
-	for _, cmd := range s.Commands {
-		names = append(names, cmd.Name)
-	}
-	for _, cmd := range cmds {
-		if slices.Contains(names, cmd.Name) {
-			continue
-		}
-		s.Commands = append(s.Commands, cmd)
-		names = append(names, cmd.Name)
-	}
-}
-
-type YamlCommand struct {
-	Exec        []string `yaml:"exec"`
-	WorkingDir  string   `yaml:"working_dir"`
-	Description string   `yaml:"description"`
-}
-
-type YamlSetting struct {
-	Commands map[string]YamlCommand `yaml:"commands"`
-}
 
 func Load() (Setting, error) {
 	// 以下の順序で.do.yamlファイルを読み込む
@@ -83,20 +45,20 @@ func loadYaml(dir string) (Setting, error) {
 	b, err := os.ReadFile(filepath.Join(dir, ".do.yaml"))
 	if err != nil {
 		return Setting{
-			Commands: []Command{},
+			Commands: []command.Command{},
 		}, nil
 	}
 	err = yaml.Unmarshal(b, &setting)
 	if err != nil {
 		return Setting{}, err
 	}
-	var cmds []Command
+	var cmds []command.Command
 	for name, cmd := range setting.Commands {
 		wd, err := getWorkingDir(dir, cmd.WorkingDir)
 		if err != nil {
 			return Setting{}, err
 		}
-		cmds = append(cmds, Command{
+		cmds = append(cmds, command.Command{
 			Name:        name,
 			ExecList:    cmd.Exec,
 			WorkingDir:  wd,

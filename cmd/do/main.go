@@ -4,23 +4,24 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/pkshimizu/do/internal/do"
+	"github.com/pkshimizu/do/internal/do/help"
+	"github.com/pkshimizu/do/internal/do/setting"
 )
 
 func main() {
-	setting, err := do.Load()
+	s, err := setting.Load()
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 	if len(os.Args) < 2 {
-		do.Print(setting)
+		help.Print(s)
 		return
 	}
 	name := os.Args[1]
-	cmd := setting.FindCommand(name)
+	cmd := s.FindCommand(name)
 	if cmd == nil {
-		do.Print(setting)
+		help.Print(s)
 		return
 	}
 	cmd.Exec(os.Args[2:])

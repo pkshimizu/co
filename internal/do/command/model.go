@@ -1,4 +1,4 @@
-package do
+package command
 
 import (
 	"bytes"

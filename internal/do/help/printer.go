@@ -1,13 +1,16 @@
-package do
+package help
 
-import "fmt"
+import (
+	"fmt"
+	"github.com/pkshimizu/do/internal/do/setting"
+)
 
-func Print(setting Setting) {
+func Print(s setting.Setting) {
 	fmt.Print("Usage: do <command> [<args>]\n\n")
 
 	fmt.Print("Commands:\n")
-	ml := getMaxCommandNameLength(setting)
-	for _, cmd := range setting.Commands {
+	ml := getMaxCommandNameLength(s)
+	for _, cmd := range s.Commands {
 		fmt.Printf("  %-*s  %s\n", ml, cmd.Name, cmd.Description)
 		fmt.Printf("  %-*s  working dir: %s\n", ml, "", cmd.WorkingDir)
 		if len(cmd.ExecList) > 0 {
@@ -19,9 +22,9 @@ func Print(setting Setting) {
 	}
 }
 
-func getMaxCommandNameLength(setting Setting) int {
+func getMaxCommandNameLength(s setting.Setting) int {
 	l := 0
-	for _, cmd := range setting.Commands {
+	for _, cmd := range s.Commands {
 		if len(cmd.Name) > l {
 			l = len(cmd.Name)
 		}
