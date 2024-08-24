@@ -2,7 +2,8 @@ package help
 
 import (
 	"fmt"
-	"github.com/pkshimizu/do/internal/do/setting"
+
+	"do/internal/do/setting"
 )
 
 func Print(s setting.Setting) {

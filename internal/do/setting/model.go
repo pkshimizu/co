@@ -3,7 +3,7 @@ package setting
 import (
 	"slices"
 
-	"github.com/pkshimizu/do/internal/do/command"
+	"do/internal/do/command"
 )
 
 type Setting struct {

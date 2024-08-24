@@ -4,7 +4,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/pkshimizu/do/internal/do/command"
+	"do/internal/do/command"
 	yaml "gopkg.in/yaml.v2"
 )
 

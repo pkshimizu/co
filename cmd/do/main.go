@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/pkshimizu/do/internal/do/help"
-	"github.com/pkshimizu/do/internal/do/setting"
+	"do/internal/do/help"
+	"do/internal/do/setting"
 )
 
 func main() {

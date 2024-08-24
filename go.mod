@@ -1,4 +1,4 @@
-module github.com/pkshimizu/do
+module do
 
 go 1.22.3
 
