@@ -2,6 +2,8 @@ package help
 
 import (
 	"fmt"
+	"slices"
+	"sort"
 
 	"do/internal/do/setting"
 )
@@ -11,7 +13,11 @@ func Print(s setting.Setting) {
 
 	fmt.Print("Commands:\n")
 	ml := getMaxCommandNameLength(s)
-	for _, cmd := range s.Commands {
+	cmds := slices.Clone(s.Commands)
+	sort.SliceStable(cmds, func(i, j int) bool {
+		return cmds[i].Name < cmds[j].Name
+	})
+	for _, cmd := range cmds {
 		fmt.Printf("  %-*s  %s\n", ml, cmd.Name, cmd.Description)
 		fmt.Printf("  %-*s  working dir: %s\n", ml, "", cmd.WorkingDir)
 		if len(cmd.ExecList) > 0 {
