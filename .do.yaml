@@ -15,7 +15,7 @@ commands:
       - go build -o dist/do cmd/do/main.go
     working_dir: .
     description: build ca
-  lm:
+  lg:
     exec:
-      - ls -l | more
+      - ls -l | grep go
     description: list and more

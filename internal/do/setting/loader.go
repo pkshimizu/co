@@ -3,6 +3,7 @@ package setting
 import (
 	"os"
 	"path/filepath"
+	"strings"
 
 	"do/internal/do/command"
 	yaml "gopkg.in/yaml.v2"
@@ -74,11 +75,21 @@ func loadYaml(dir string) (Setting, error) {
 		if err != nil {
 			return Setting{}, err
 		}
+		var executors []command.Executors
+		for _, exec := range cmd.Exec {
+			var execList []string
+			for _, val := range strings.Split(exec, "|") {
+				execList = append(execList, strings.TrimSpace(val))
+			}
+			executors = append(executors, command.Executors{
+				ExecList: execList,
+			})
+		}
 		cmds = append(cmds, command.Command{
-			Name:        name,
-			ExecList:    cmd.Exec,
-			WorkingDir:  wd,
-			Description: cmd.Description,
+			Name:          name,
+			ExecutorsList: executors,
+			WorkingDir:    wd,
+			Description:   cmd.Description,
 		})
 	}
 	return Setting{
