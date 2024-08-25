@@ -2,6 +2,7 @@ package command
 
 import (
 	"bytes"
+	"os"
 	"os/exec"
 	"strings"
 )
@@ -27,12 +28,12 @@ func (cmd Command) Exec(args []string) error {
 		err := c.Run()
 		stdMsg := stdout.String()
 		if len(stdMsg) > 0 {
-			println(stdMsg)
+			println(os.Stdout, stdMsg)
 		}
 		if err != nil {
 			errMsg := stderr.String()
 			if len(errMsg) > 0 {
-				println(errMsg)
+				println(os.Stderr, errMsg)
 			}
 			return err
 		}
