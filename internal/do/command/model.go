@@ -24,7 +24,9 @@ func (e Executors) Run(dir string, args []string) (err error) {
 		values := strings.Split(ex, " ")
 		cmdName := values[0]
 		cmdArgs := append(values[1:])
-		out, errMsg, err = runCommand(dir, cmdName, cmdArgs, out)
+		if out, errMsg, err = runCommand(dir, cmdName, cmdArgs, out); err != nil {
+			break
+		}
 	}
 	if len(out) > 0 {
 		_, err = fmt.Fprint(os.Stdin, out)
