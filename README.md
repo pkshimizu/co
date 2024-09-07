@@ -1,11 +1,11 @@
-# ca : Command Alias
+# do : Command Runner
 
 ## Features
-- [ ] Command aliases can be defined and executed in short commands
-- [ ] Command aliases in upper directory definitions can also be executed.
-- [ ] Working directory can be set for command execution
-- [ ] Runs lightly
-- [ ] Displays predefined commands
+- Can define short commands
+- Can define commands in the current directory, parent directory, DO_HOME, or user home directory
+- Can specify the working directory for each command
+- Lightweight execution
+- Can display command descriptions
 
 ## Setting example
 ```yaml
