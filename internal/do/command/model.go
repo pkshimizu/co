@@ -26,9 +26,6 @@ func (e Executor) Run(dir string, args []string, in string) (out string, errMsg 
 	if si, err = c.StdinPipe(); err != nil {
 		return
 	}
-	defer func() {
-		err = si.Close()
-	}()
 	c.Dir = dir
 	if err = c.Start(); err != nil {
 		return
