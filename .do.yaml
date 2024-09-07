@@ -16,6 +16,11 @@ commands:
       - shasum -a 256 dist/do
     working_dir: .
     description: build ca
+  snapshot:
+    exec:
+      - goreleaser release --snapshot --rm-dist
+    working_dir: .
+    description: release snapshot
   lg:
     exec:
       - ls -l | grep go
