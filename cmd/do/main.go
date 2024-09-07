@@ -8,6 +8,8 @@ import (
 	"do/internal/do/setting"
 )
 
+const Version = "0.1.0"
+
 func main() {
 	s, err := setting.Load()
 	if err != nil {
@@ -15,13 +17,13 @@ func main() {
 		return
 	}
 	if len(os.Args) < 2 {
-		help.Print(s)
+		help.Print(Version, s)
 		return
 	}
 	name := os.Args[1]
 	cmd := s.FindCommand(name)
 	if cmd == nil {
-		help.Print(s)
+		help.Print(Version, s)
 		return
 	}
 	cmd.Exec(os.Args[2:])

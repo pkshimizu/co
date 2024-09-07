@@ -8,7 +8,8 @@ import (
 	"do/internal/do/setting"
 )
 
-func Print(s setting.Setting) {
+func Print(version string, s setting.Setting) {
+	fmt.Printf("do version: %s\n", version)
 	fmt.Print("Usage: do <command> [<args>]\n\n")
 
 	fmt.Print("Commands:\n")
