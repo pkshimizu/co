@@ -20,11 +20,11 @@ func Print(s setting.Setting) {
 	for _, cmd := range cmds {
 		fmt.Printf("  %-*s  %s\n", ml, cmd.Name, cmd.Description)
 		fmt.Printf("  %-*s  working dir: %s\n", ml, "", cmd.WorkingDir)
-		if len(cmd.ExecutorsList) > 0 {
-			fmt.Printf("  %-*s  exec: %s\n", ml, "", cmd.ExecutorsList[0].String())
+		if len(cmd.Pipelines) > 0 {
+			fmt.Printf("  %-*s  exec: %s\n", ml, "", cmd.Pipelines[0].String())
 		}
-		for _, ex := range cmd.ExecutorsList[1:] {
-			fmt.Printf("  %-*s        %s\n", ml, "", ex.String())
+		for _, pl := range cmd.Pipelines[1:] {
+			fmt.Printf("  %-*s        %s\n", ml, "", pl.String())
 		}
 	}
 }

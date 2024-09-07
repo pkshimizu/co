@@ -75,19 +75,21 @@ func loadYaml(dir string) (Setting, error) {
 		if err != nil {
 			return Setting{}, err
 		}
-		var executors []command.Executors
+		var pipelines []command.ExecutorPipeline
 		for _, exec := range cmd.Exec {
-			var execList []string
+			executors := []command.Executor{}
 			for _, val := range strings.Split(exec, "|") {
-				execList = append(execList, strings.TrimSpace(val))
+			    executors = append(executors, command.Executor{
+			        Line: strings.TrimSpace(val),
+			    })
 			}
-			executors = append(executors, command.Executors{
-				ExecList: execList,
+			pipelines = append(pipelines, command.ExecutorPipeline{
+				Executors: executors,
 			})
 		}
 		cmds = append(cmds, command.Command{
 			Name:          name,
-			ExecutorsList: executors,
+			Pipelines:     pipelines,
 			WorkingDir:    wd,
 			Description:   cmd.Description,
 		})

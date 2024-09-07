@@ -9,36 +9,15 @@ import (
 	"strings"
 )
 
-type Executors struct {
-	ExecList []string
+type Executor struct {
+    Line string
 }
 
-func (e Executors) String() string {
-	return strings.Join(e.ExecList, " | ")
-}
-
-func (e Executors) Run(dir string, args []string) (err error) {
-	out := ""
-	errMsg := ""
-	for _, ex := range e.ExecList {
-		values := strings.Split(ex, " ")
-		cmdName := values[0]
-		cmdArgs := append(values[1:])
-		if out, errMsg, err = runCommand(dir, cmdName, cmdArgs, out); err != nil {
-			break
-		}
-	}
-	if len(out) > 0 {
-		_, err = fmt.Fprint(os.Stdin, out)
-	}
-	if len(errMsg) > 0 {
-		_, err = fmt.Fprint(os.Stderr, errMsg)
-	}
-	return
-}
-
-func runCommand(dir string, name string, args []string, in string) (out string, errMsg string, err error) {
-	c := exec.Command(name, args...)
+func (e Executor) Run(dir string, args []string, in string) (out string, errMsg string, err error) {
+    values := strings.Split(e.Line, " ")
+    name := values[0]
+    cmdArgs := append(values[1:])
+	c := exec.Command(name, cmdArgs...)
 	var stdout bytes.Buffer
 	var stderr bytes.Buffer
 	c.Stdout = &stdout
@@ -68,16 +47,45 @@ func runCommand(dir string, name string, args []string, in string) (out string, 
 	return
 }
 
+type ExecutorPipeline struct {
+	Executors []Executor
+}
+
+func (e ExecutorPipeline) String() string {
+    lines := []string{}
+    for _, ex := range e.Executors {
+        lines = append(lines, ex.Line)
+    }
+	return strings.Join(lines, " | ")
+}
+
+func (e ExecutorPipeline) Run(dir string, args []string) (err error) {
+	out := ""
+	errMsg := ""
+	for _, ex := range e.Executors {
+		if out, errMsg, err = ex.Run(dir, args, out); err != nil {
+			break
+		}
+	}
+	if len(out) > 0 {
+		_, err = fmt.Fprint(os.Stdin, out)
+	}
+	if len(errMsg) > 0 {
+		_, err = fmt.Fprint(os.Stderr, errMsg)
+	}
+	return
+}
+
 type Command struct {
 	Name          string
-	ExecutorsList []Executors
+	Pipelines     []ExecutorPipeline
 	WorkingDir    string
 	Description   string
 }
 
 func (cmd Command) Exec(args []string) error {
-	for _, ex := range cmd.ExecutorsList {
-		err := ex.Run(cmd.WorkingDir, args)
+	for _, pl := range cmd.Pipelines {
+		err := pl.Run(cmd.WorkingDir, args)
 		if err != nil {
 			return err
 		}
