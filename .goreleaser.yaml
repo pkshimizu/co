@@ -39,9 +39,17 @@ archives:
       - goos: windows
         format: zip
 
+brews:
+  - repository:
+      owner: pkshimizu
+      name: homebrew-tap
+      token: "{{ .Env.TAP_GITHUB_TOKEN }}"
+
 changelog:
   sort: asc
   filters:
     exclude:
       - "^docs:"
       - "^test:"
+
+  # ...省略
