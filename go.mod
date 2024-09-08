@@ -1,4 +1,4 @@
-module do
+module co
 
 go 1.22.3
 

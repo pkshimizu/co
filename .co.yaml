@@ -1,9 +1,9 @@
 commands:
   run:
     exec:
-      - go run cmd/do/main.go
+      - go run cmd/co/main.go
     working_dir: .
-    description: run do
+    description: run co
   lint:
     exec:
       - staticcheck ./...
@@ -12,10 +12,10 @@ commands:
     description: style check
   build:
     exec:
-      - go build -o dist/do cmd/do/main.go
-      - shasum -a 256 dist/do
+      - go build -o dist/co cmd/co/main.go
+      - shasum -a 256 dist/co
     working_dir: .
-    description: build ca
+    description: build co
   snapshot:
     exec:
       - goreleaser release --snapshot --rm-dist

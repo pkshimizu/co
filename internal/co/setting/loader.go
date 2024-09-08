@@ -5,12 +5,12 @@ import (
 	"path/filepath"
 	"strings"
 
-	"do/internal/do/command"
+	"co/internal/co/command"
 	yaml "gopkg.in/yaml.v2"
 )
 
 func Load() (Setting, error) {
-	// 以下の順序で.do.yamlファイルを読み込む
+	// 以下の順序で.co.yamlファイルを読み込む
 	// 1. カレントディレクトリ
 	dir, err := os.Getwd()
 	if err != nil {
@@ -35,10 +35,10 @@ func Load() (Setting, error) {
 		}
 	}
 
-	// 3. DO_HOMEディレクトリ
-	doHomeDir := os.Getenv("DO_HOME")
-	if doHomeDir != "" {
-		s, err := loadYaml(doHomeDir)
+	// 3. CO_HOMEディレクトリ
+	coHomeDir := os.Getenv("CO_HOME")
+	if coHomeDir != "" {
+		s, err := loadYaml(coHomeDir)
 		setting.AddCommands(s.Commands)
 		if err != nil {
 			return setting, err
@@ -59,7 +59,7 @@ func Load() (Setting, error) {
 func loadYaml(dir string) (Setting, error) {
 	// 設定を読み込む
 	s := YamlSetting{}
-	b, err := os.ReadFile(filepath.Join(dir, ".do.yaml"))
+	b, err := os.ReadFile(filepath.Join(dir, ".co.yaml"))
 	if err != nil {
 		return Setting{
 			Commands: []command.Command{},

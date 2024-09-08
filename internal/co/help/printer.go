@@ -5,12 +5,12 @@ import (
 	"slices"
 	"sort"
 
-	"do/internal/do/setting"
+	"co/internal/co/setting"
 )
 
 func Print(version string, s setting.Setting) {
-	fmt.Printf("do version: %s\n", version)
-	fmt.Print("Usage: do <command> [<args>]\n\n")
+	fmt.Printf("co version: %s\n", version)
+	fmt.Print("Usage: co <command> [<args>]\n\n")
 
 	fmt.Print("Commands:\n")
 	ml := getMaxCommandNameLength(s)

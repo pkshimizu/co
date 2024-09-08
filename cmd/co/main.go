@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"do/internal/do/help"
-	"do/internal/do/setting"
+	"co/internal/co/help"
+	"co/internal/co/setting"
 )
 
 const Version = "0.1.0"
