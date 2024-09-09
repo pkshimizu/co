@@ -21,6 +21,16 @@ commands:
       - goreleaser release --snapshot --rm-dist
     working_dir: .
     description: release snapshot
+  release:
+    exec:
+      - git tag -a <args>
+      - git push origin <args>
+    working_dir: .
+    description: release
+  echo:
+    exec:
+      - echo <args>
+    description: echo args
   lg:
     exec:
       - ls -l | grep go

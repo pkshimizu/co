@@ -16,7 +16,14 @@ type Executor struct {
 func (e Executor) Run(dir string, args []string, in string) (out string, errMsg string, err error) {
     values := strings.Split(e.Line, " ")
     name := values[0]
-    cmdArgs := append(values[1:])
+    cmdArgs := []string{}
+    for _, arg := range values[1:] {
+        if arg == "<args>" {
+            cmdArgs = append(cmdArgs, args...)
+        } else {
+            cmdArgs = append(cmdArgs, arg)
+        }
+    }
 	c := exec.Command(name, cmdArgs...)
 	var stdout bytes.Buffer
 	var stderr bytes.Buffer
