@@ -23,7 +23,7 @@ commands:
     description: release snapshot
   release:
     exec:
-      - git tag -a <args>
+      - git tag <args>
       - git push origin <args>
     working_dir: .
     description: release
