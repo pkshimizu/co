@@ -8,7 +8,7 @@ import (
 	"co/internal/co/setting"
 )
 
-const Version = "0.2.0"
+const Version = "0.3.0"
 
 func main() {
 	s, err := setting.Load()
