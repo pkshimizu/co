@@ -1,6 +1,7 @@
 package command
 
 import (
+	"bytes"
 	"fmt"
 	"io"
 	"os"
@@ -24,8 +25,13 @@ func (e Executor) Run(dir string, args []string, in string, outputStd bool) (out
 		}
 	}
 	c := exec.Command(name, cmdArgs...)
-	stdout, _ := c.StdoutPipe()
-	stderr, _ := c.StderrPipe()
+	var stdout bytes.Buffer
+	c.Stderr = os.Stderr
+	if outputStd {
+		c.Stdout = os.Stdout
+	} else {
+		c.Stdout = &stdout
+	}
 
 	var si io.WriteCloser
 	if si, err = c.StdinPipe(); err != nil {
@@ -35,57 +41,21 @@ func (e Executor) Run(dir string, args []string, in string, outputStd bool) (out
 	if err = c.Start(); err != nil {
 		return
 	}
-	if len(in) > 0 {
-		if _, err = fmt.Fprint(si, in); err != nil {
-			return
-		}
-		if err = si.Close(); err != nil {
-			return
-		}
+	if _, err = fmt.Fprint(si, in); err != nil {
+		return
 	}
-
-	streamReader := func(reader io.ReadCloser, outputChan chan string, doneChan chan bool) {
-		defer close(outputChan)
-		defer close(doneChan)
-		buf := make([]byte, 1024)
-		num, err := reader.Read(buf)
-		for err == nil || err != io.EOF {
-			outputChan <- string(buf[:num])
-			num, err = reader.Read(buf)
-		}
-		doneChan <- true
-	}
-
-	stdoutOutputChan := make(chan string)
-	stdoutDoneChan := make(chan bool)
-	stderrOutputChan := make(chan string)
-	stderrDoneChan := make(chan bool)
-	go streamReader(stdout, stdoutOutputChan, stdoutDoneChan)
-	go streamReader(stderr, stderrOutputChan, stderrDoneChan)
-
-	stillGoing := true
-	for stillGoing {
-		select {
-		case <-stdoutDoneChan:
-			stillGoing = false
-		case line := <-stdoutOutputChan:
-			if outputStd {
-				if _, err = fmt.Fprint(os.Stdout, line); err != nil {
-					return
-				}
-			} else {
-				out += line
-			}
-		case line := <-stderrOutputChan:
-			if _, err = fmt.Fprint(os.Stderr, line); err != nil {
-				return
-			}
-		}
+	if err = si.Close(); err != nil {
+		return
 	}
 
 	if err = c.Wait(); err != nil {
 		return
 	}
+
+	if !outputStd {
+		out = stdout.String()
+	}
+
 	return
 }
 

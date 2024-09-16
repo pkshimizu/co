@@ -34,4 +34,4 @@ commands:
   lg:
     exec:
       - ls -l | grep go
-    description: list and more
+    description: list and grep
